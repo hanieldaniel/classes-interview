@@ -29,9 +29,9 @@ export class CourseResolver {
     async createCourse(
         @Arg('title') title: string,
         @Arg('description') description: string,
-        @Ctx() { req, em }: MyContext
+        @Ctx() { em, req }: MyContext
     ): Promise<Course> {
-        const course = em.create(Course, { title, description });
+        const course = em.create(Course, { title, description, createdby: req.session.userId });
         await em.persistAndFlush(course)
         return course;
     }
@@ -45,7 +45,7 @@ export class CourseResolver {
         @Arg('description', () => String, { nullable: true }) description: string,
         @Ctx() { em }: MyContext
     ): Promise<Course | null> {
-        const course = await em.findOne(Course, { id, description });
+        const course = await em.findOne(Course, { id});
 
         if (!course) {
             return null;

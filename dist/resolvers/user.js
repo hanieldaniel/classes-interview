@@ -68,6 +68,12 @@ UserResponse = __decorate([
     type_graphql_1.ObjectType()
 ], UserResponse);
 let UserResolver = class UserResolver {
+    users({ em }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const courses = yield em.find(User_1.User, {});
+            return courses;
+        });
+    }
     me({ req, em }) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.session.userId) {
@@ -147,6 +153,13 @@ let UserResolver = class UserResolver {
         });
     }
 };
+__decorate([
+    type_graphql_1.Query(() => [User_1.User]),
+    __param(0, type_graphql_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "users", null);
 __decorate([
     type_graphql_1.Query(() => User_1.User, { nullable: true }),
     __param(0, type_graphql_1.Ctx()),

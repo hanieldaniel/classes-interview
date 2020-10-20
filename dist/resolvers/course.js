@@ -34,16 +34,16 @@ let CourseResolver = class CourseResolver {
     course(id, { em }) {
         return em.findOne(Course_1.Course, { id });
     }
-    createCourse(title, description, { req, em }) {
+    createCourse(title, description, { em, req }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const course = em.create(Course_1.Course, { title, description });
+            const course = em.create(Course_1.Course, { title, description, createdby: req.session.userId });
             yield em.persistAndFlush(course);
             return course;
         });
     }
     updateCourse(id, title, description, { em }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const course = yield em.findOne(Course_1.Course, { id, description });
+            const course = yield em.findOne(Course_1.Course, { id });
             if (!course) {
                 return null;
             }

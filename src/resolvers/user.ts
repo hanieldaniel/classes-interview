@@ -34,6 +34,14 @@ class UserResponse {
 @Resolver()
 export class UserResolver {
 
+    @Query(() => [User])
+    async users(
+        @Ctx() { em }: MyContext
+    ) {
+        const courses = await em.find(User, {});
+        return courses;
+    }
+
     @Query(() => User, { nullable: true })
     async me(
         @Ctx() { req, em }: MyContext
